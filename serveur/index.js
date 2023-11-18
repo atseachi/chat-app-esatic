@@ -77,29 +77,14 @@ socketIO.on('connection', (socket) => {
   });
   
   
-
-
-
-
-
-    //Listens when a new user joins the server
-    // socket.on('pseudo', (data) => {
-
-      
-    //   //Adds the new user to the list of users
-    //   users.push(data);
-    //   // console.log(users);
-    //   //Sends the list of users to the client
-    //   socketIO.emit('newUserResponse', users);
-    // });
-
-
-
-
-
  
-  socket.on('message', (data) => {
-    socketIO.emit('messageResponse', data);
+  socket.on('message', (message) => {
+    const chat = new Chat();
+    chat.content = message.content;
+    chat.sender = message.sender;
+    chat.save();
+
+    socketIO.emit('messageResponse', message);
   });
 
   socket.on('typing', (data) => socket.broadcast.emit('typingResponse', data));
