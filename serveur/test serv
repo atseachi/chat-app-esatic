@@ -47,73 +47,26 @@ const socketIO = require('socket.io')(http, {
 let users = [];
 
 socketIO.on('connection', (socket) => {
-
-
-
-  socket.on('pseudo', async (pseudo) => {
-    try {
-      const user = await User.findOne({ pseudo: pseudo });
-  
-      if (user) {
-        socket.pseudo = pseudo;
-        socket.broadcast.emit('newUser', pseudo);
-        console.log('Utilisateur existant');
-      } else {
-        const newUser = new User({ pseudo: pseudo });
-        await newUser.save();
-  
-        socket.pseudo = pseudo;
-        socket.broadcast.emit('newUser', pseudo);
-        console.log('Nouvel utilisateur ajouté');
-      }
-      users.push(pseudo);
-      
-      socketIO.emit('newUserResponse', users);
-      console.log(`⚡: ${socket.id} user just connected!`);
-    } catch (err) {
-      // Gérer l'erreur ici
-      console.error(err);
-    }
-  });
-  
-  
-
-
-
-
-
-    //Listens when a new user joins the server
-    // socket.on('pseudo', (data) => {
-
-      
-    //   //Adds the new user to the list of users
-    //   users.push(data);
-    //   // console.log(users);
-    //   //Sends the list of users to the client
-    //   socketIO.emit('newUserResponse', users);
-    // });
-
-
-
-
-
- 
+  console.log(`⚡: ${socket.id} user just connected!`);
   socket.on('message', (data) => {
     socketIO.emit('messageResponse', data);
   });
 
   socket.on('typing', (data) => socket.broadcast.emit('typingResponse', data));
 
-
-
-
-
-
+  //Listens when a new user joins the server
+  socket.on('newUser', (data) => {
+    //Adds the new user to the list of users
+    users.push(data);
+    // console.log(users);
+    //Sends the list of users to the client
+    socketIO.emit('newUserResponse', users);
+  });
 
   socket.on('disconnect', () => {
     console.log('🔥: A user disconnected');
     //Updates the list of users when a user disconnects from the server
-    users = users.filter((user) => user !== socket.pseudo);
+    users = users.filter((user) => user.socketID !== socket.id);
     // console.log(users);
     //Sends the list of users to the client
     socketIO.emit('newUserResponse', users);

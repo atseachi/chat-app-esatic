@@ -4,4 +4,4 @@ var UserSchema = new mongoose.Schema({
     pseudo :  String
 });
 
-const UserModels = mongoose.model('user',UserSchema);
+mongoose.model('user',UserSchema);
