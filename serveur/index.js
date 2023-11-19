@@ -70,6 +70,18 @@ socketIO.on('connection', (socket) => {
       
       socketIO.emit('newUserResponse', users);
       console.log(`⚡: ${socket.id} user just connected!`);
+
+
+      //recuperations des anciens messages
+      Chat.find()
+      .then((messages) => {
+      socket.emit('oldMessages', messages);
+     })
+    .catch((err) => {
+    console.error(err);
+    });
+      
+
     } catch (err) {
       // Gérer l'erreur ici
       console.error(err);
@@ -79,6 +91,7 @@ socketIO.on('connection', (socket) => {
   
  
   socket.on('message', (message) => {
+    console.log('New message received on server:', message);
     const chat = new Chat();
     chat.content = message.content;
     chat.sender = message.sender;
