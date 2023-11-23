@@ -153,3 +153,13 @@
   font-size: 13px;
   font-style: italic;
 }
+.logo-titre{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.logo {
+  width: 5em; 
+  height: auto; 
+}
