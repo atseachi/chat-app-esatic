@@ -170,7 +170,7 @@
   height: auto; 
 }
 
-.chatting{
+.home__container{
     background-image: url('smart.jpg');
     background-size: cover; /* Ajuste la taille de l'image pour couvrir tout l'arrière-plan */
     background-position: center; /* Centre l'image par rapport à l'arrière-plan */

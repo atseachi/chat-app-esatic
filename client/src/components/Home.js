@@ -15,7 +15,7 @@ const Home = ({ socket }) => {
 
 
   return (
-    <form className="home__container" onSubmit={handleSubmit}>
+    <form  className="home__container" onSubmit={handleSubmit}>
       <h2 className="home__header">Sign in to Open Chat</h2>
       <label htmlFor="username">Username</label>
       <input
